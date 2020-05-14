@@ -6,11 +6,14 @@
     "AccessorHoverEventShowItem",
     "AccessorServerBossBar",
     "AccessorStyle",
+    "MixinIdentifier",
     "MixinMinecraftServer",
     "MixinServerCommandOutput",
     "MixinServerCommandSource",
     "MixinServerPlayerEntity",
-    "MixinTextSerializer"
+    "MixinTextSerializer",
+
+    "api.MixinKey"
   ],
   "injectors": {
     "defaultRequire": 1

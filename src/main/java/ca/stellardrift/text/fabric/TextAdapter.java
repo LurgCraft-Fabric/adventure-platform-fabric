@@ -27,14 +27,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.KeybindComponent;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainComponentSerializer;
 import net.minecraft.client.options.KeyBinding;
-import net.minecraft.network.MessageType;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -42,8 +37,6 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
-import java.util.EnumSet;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
@@ -137,7 +130,7 @@ public class TextAdapter implements ModInitializer {
         if (ident == null) {
             return null;
         }
-        return Key.of(ident.getNamespace(), ident.getPath());
+        return (Key) (Object) ident;
     }
 
 
@@ -151,7 +144,7 @@ public class TextAdapter implements ModInitializer {
         if (key == null) {
             return null;
         }
-        return new Identifier(key.namespace(), key.value());
+        return (Identifier) (Object) key;
     }
 
     /// Mod adapter implementation
@@ -165,6 +158,11 @@ public class TextAdapter implements ModInitializer {
         if (game instanceof MinecraftServer) {
             server = (MinecraftServer) game;
         }
+
+        final Key test = Key.of("test");
+        System.out.println(test);
+        System.out.println(test.getClass());
+        System.out.println("namespace: " + test.namespace() + ", path: " + test.value());
 
         this.container = FabricLoader.getInstance().getModContainer("text-adapter-fabric")
                 .orElseThrow(() -> new IllegalStateException("Mod ID for text-adapter-fabric has been changed without updating the initializer!"));
